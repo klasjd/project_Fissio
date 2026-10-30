@@ -21,7 +21,8 @@
 [![RAM Usage](https://img.shields.io/badge/RAM%20Footprint-%3C%2015%20MB-brightgreen?style=for-the-badge)]()
 [![Purpose](https://img.shields.io/badge/Initiative-Public%20Interest-blueviolet?style=for-the-badge)]()
 
-[English](#-overview-english) • [한국어 설명](#-개요-korean) • [Architecture](#-architecture--mechanisms) • [Key Features](#-key-features) • [Build Guide](#-build--development) • [Legal & Trademark](#-legal--trademark-notice)
+[English](#-overview-english) • [한국어 설명](#-개요-korean) • [简体中文](#-项目概述-simplified-chinese) • [日本語](#-概要-japanese) • [Русский](#-описание-russian) • [Español](#-descripción-spanish) • [العربية](#-نظرة-عامة-arabic)  
+[Architecture](#-architecture--mechanisms) • [Key Features](#-key-features) • [Build Guide](#-build--development) • [Legal & Trademark](#-legal--trademark-notice)
 
 ---
 
@@ -52,6 +53,46 @@ When repressive regimes weaponize deep packet inspection, SNI filtering, and pro
 권위주의 정권의 극심한 SNI 차단, 국가 차원의 능동적 DPI 패킷 감시, 해외망 및 VPN 프로토콜 강제 차단 속에서도 보편적 정보 접근권과 안전한 통신권을 보장하기 위해 설계되었습니다.
 
 취약한 통신망이나 저사양 PC 환경에서도 원활히 동작하도록 Electron이나 .NET 같은 무거운 프레임워크를 일체 배제하고 **순수 Win32 API 및 Windows DWM 하드웨어 렌더링**만으로 제작되었습니다. 실행 파일 크기 약 1.5MB, 메모리 점유율 15MB 미만의 초경량 네이티브 구조로 위기 상황에서도 신속하고 안정적인 정보 접근을 지원합니다.
+
+---
+
+## 🇨🇳 项目概述 (Simplified Chinese)
+
+**Fissio** 是一款专为**处于严苛网络审查、国家级 DPI 流量嗅探与全面通信封锁环境下的普通公民、记者和人权活动人士**打造的公益性纯原生网络工具。
+
+当威权审查机制利用深度包检测（DPI）、SNI 阻断及主流 VPN 协议封锁来隔绝信息流通时，Fissio 成为保障基本信息获取权与安全通讯的坚固防线。项目基于纯 **C++20** 开发，**零引入冗余框架**（无 Electron、无 Qt、无 .NET、无 Chromium），内存开销低于 15 MB，即使在受限地区的低配硬件设备上亦能秒级自启并稳定穿透封锁。
+
+---
+
+## 🇯🇵 概要 (Japanese)
+
+**Fissio** は、**過度な国家インターネット検閲、標的型 DPI 監視、プロトコル遮断などの情報統制下にある市民・ジャーナリスト・人権活動家**の情報アクセス権を保護するために開発された、完全ネイティブ設計の公益オープンソースツールです。
+
+SNI 遮断やステートフル DPI パケット監視により外部との通信が途絶される環境において、自由で安全な通信経路を確保します。Electron や .NET などの重量級フレームワークを一切排除し、**純粋な C++20 および Win32/DWM API** のみで構築。実行ファイルサイズ約 1.5MB、メモリ占有量 15MB 未満の超軽量設計により、過酷な低リソース環境下でも瞬時に安定起動します。
+
+---
+
+## 🇷🇺 Описание (Russian)
+
+**Fissio** — это открытый инструмент общественного назначения, созданный специально для журналистов, правозащитников и граждан, находящихся в условиях **жесткой государственной интернет-цензуры, систем тотальной слежки DPI и блокировок независимых каналов связи**.
+
+В условиях блокировок по SNI и подавления стандартных VPN-протоколов Fissio обеспечивает надежный доступ к свободному интернету. Клиент написан на чистом **C++20** **без использования тяжелых фреймворков** (никаких Electron, Qt, .NET или Chromium). Приложение весит всего ~1.5 МБ, потребляет менее 15 МБ оперативной памяти и гарантирует быстродействие даже на слабых компьютерах в условиях нестабильной сетевой инфраструктуры.
+
+---
+
+## 🇪🇸 Descripción (Spanish)
+
+**Fissio** es una herramienta de código abierto de interés público, diseñada específicamente para ciudadanos, periodistas y defensores de los derechos humanos que viven bajo **una estricta censura estatal de Internet, vigilancia activa mediante DPI y bloqueos de protocolos de comunicación**.
+
+Frente al bloqueo sistemático de SNI y la interrupción de conexiones seguras, Fissio actúa como una vía de escape ligera y resiliente. Desarrollado en **C++20 puro sin entornos pesados** (sin Electron, Qt, .NET ni Chromium), consume menos de 15 MB de memoria RAM y cuenta con un ejecutable de apenas 1.5 MB, garantizando una disponibilidad inmediata incluso en equipos de muy bajos recursos.
+
+---
+
+## 🇸🇦 نظرة عامة (Arabic)
+
+**Fissio** هي أداة برمجية مفتوحة المصدر ذات نفع عام، صُممت خصيصاً لحماية حقوق الصحفيين والنشطاء والمواطنين الذين يعيشون في ظل **رقابة حكومية مشددة على الإنترنت، ومراقبة عميقة للحزم (DPI)، وحظر متكرر لقنوات الاتصال**.
+
+عندما توظف الأنظمة القمعية تقنيات حظر SNI والتتبع المستمر لقطع الوصول إلى الشبكة العالمية، توفر Fissio وسيلة وصول آمنة ومستقرة. تم بناء الأداة بلغة **C++20** النقية دون الاعتماد على بيئات عمل ثقيلة (بدون Electron أو Qt أو .NET)، لتستهلك أقل من 15 ميغابايت من الذاكرة (RAM) بحجم ملف لا يتعدى 1.5 ميغابايت، مما يضمن عملها بسرعة وموثوقية في أصعب الظروف.
 
 ---
 
