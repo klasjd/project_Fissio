@@ -1,0 +1,12 @@
+[submodule "third_party/boringssl"]
+	path = third_party/boringssl
+	url = https://github.com/google/boringssl.git
+[submodule "third_party/asio"]
+	path = third_party/asio
+	url = https://github.com/chriskohlhoff/asio.git
+[submodule "third_party/wireguard-go"]
+	path = third_party/wireguard-go
+	url = https://git.zx2c4.com/wireguard-go
+[submodule "third_party/wireguard-windows"]
+	path = third_party/wireguard-windows
+	url = https://git.zx2c4.com/wireguard-windows

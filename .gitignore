@@ -1,0 +1,36 @@
+# Build artifacts and binaries
+build/
+bin/
+obj/
+*.exe
+*.dll
+*.lib
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.old
+
+# Keep Wintun driver binaries needed for build & distribution
+!third_party/wintun/**
+
+# User network configuration & secrets (Never commit!)
+*.conf
+!sample_wireguard.conf
+active_wg.conf
+last_config.path
+fissio_advanced.ini
+
+# IDE & Editor files
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
