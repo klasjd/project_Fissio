@@ -11,15 +11,15 @@
 
 # FISSIO
 
-**Next-Gen Ultra-Lightweight ECH Proxy & WireGuard®-Compatible L3 VPN Client**  
-*초경량 순수 네이티브 ECH 프록시 & WireGuard® 프로토콜 호환 L3 터널 클라이언트*
+**A Public-Interest ECH Proxy & WireGuard® Tunnel for Free Access in High-Censorship Regions**  
+*인터넷 검열이 심한 국가의 정보 접근권 보장을 위한 순수 네이티브 공익 네트워크 클라이언트*
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20(x64)-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://microsoft.com/windows)
 [![C++ Standard](https://img.shields.io/badge/Language-C%2B%2B20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
 [![GUI Engine](https://img.shields.io/badge/GUI-Pure%20Win32%20%2F%20DWM%20Dark-18181B?style=for-the-badge&logo=visualstudio&logoColor=white)](https://learn.microsoft.com/windows/win32/)
 [![Binary Size](https://img.shields.io/badge/GUI%20Size-~1.5%20MB-success?style=for-the-badge)]()
 [![RAM Usage](https://img.shields.io/badge/RAM%20Footprint-%3C%2015%20MB-brightgreen?style=for-the-badge)]()
-[![Languages](https://img.shields.io/badge/i18n-7%20Languages-orange?style=for-the-badge)]()
+[![Purpose](https://img.shields.io/badge/Initiative-Public%20Interest-blueviolet?style=for-the-badge)]()
 
 [English](#-overview-english) • [한국어 설명](#-개요-korean) • [Architecture](#-architecture--mechanisms) • [Key Features](#-key-features) • [Build Guide](#-build--development) • [Legal & Trademark](#-legal--trademark-notice)
 
@@ -29,42 +29,46 @@
 
 ## 🌐 Overview (English)
 
-**Fissio** is a high-performance, ultra-lightweight Windows desktop client engineered to bypass sophisticated DPI (Deep Packet Inspection), SNI censorship, and protocol throttling. 
+**Fissio** is an open-source, public-interest Windows desktop utility engineered specifically for journalists, activists, and ordinary citizens living under **severe state-level Internet censorship, hostile DPI surveillance, and aggressive communication blackouts**.
 
-Built in pure **C++20** with **zero bloated frameworks** (No Electron, No Qt, No .NET, No Chromium), Fissio delivers instant launch speeds, consumes less than 15 MB of RAM, and presents a modern dark-mode GUI crafted entirely with native Win32 & Desktop Window Manager (DWM) APIs.
+When repressive regimes weaponize deep packet inspection, SNI filtering, and protocol throttling to isolate communities, Fissio acts as a resilient gateway to the open web. Built in pure **C++20** with **zero bloated frameworks** (No Electron, No Qt, No .NET, No Chromium), Fissio ensures reliable operation even on resource-constrained hardware in restricted zones—launching instantly with less than 15 MB of RAM and presenting an accessible native dark-mode GUI.
 
 ### 🛡️ Core Highlights
-- **Encrypted Client Hello (ECH)**: Dynamic DNS-over-HTTPS (DoH) HTTPS RR (Type 65) querying, binary ECHConfigList parsing, and BoringSSL Outer SNI encapsulation.
-- **TCP Fragmentation Engine**: Advanced TCP segmentation (2~5 byte initial split + jitter delay) defeating DPI state machines.
+- **Human Rights & Digital Privacy**: Safeguards fundamental access to unbiased information and secure communication in heavily restricted jurisdictions.
+- **Encrypted Client Hello (ECH)**: Dynamic DNS-over-HTTPS (DoH) HTTPS RR (Type 65) querying, binary ECHConfigList parsing, and BoringSSL Outer SNI encapsulation to defeat eavesdropping.
+- **TCP Fragmentation Engine**: Advanced TCP segmentation (2~5 byte initial split + jitter delay) neutralizing stateful DPI surveillance machines.
 - **WireGuard® Protocol L3 Tunnel**: Full-system routing through the official high-speed Wintun kernel driver (`wintun.dll`).
-- **Hybrid Bypass Mode**: Couples WireGuard L3 tunneling with ECH fragmentation for environments blocking standard UDP.
+- **Hybrid Anti-Censorship Mode**: Couples WireGuard L3 tunneling with ECH fragmentation to pierce enterprise-grade state firewalls that block standard UDP.
 - **Pure Win32 Modern Dark GUI**: Seamless border & caption unification (`#18181B`), custom owner-drawn interactive buttons, Windows 11 rounded corners, and native dark controls.
 - **Zero-Friction UX**: Drag & drop `.conf` profile import, system tray minimization, auto-start on Windows boot, and one-click emergency network restoration.
-- **Automatic 7-Language i18n**: Real-time hot-switching without restart for Korean, English, Simplified Chinese, Japanese, Spanish, Russian, and Arabic.
+- **Accessible 7-Language i18n**: Real-time hot-switching without restart for Korean, English, Simplified Chinese, Japanese, Spanish, Russian, and Arabic.
 
 ---
 
 ## 🇰🇷 개요 (Korean)
 
-**Fissio**는 강화된 인터넷 검열(SNI 차단, 국가 단위 DPI 패킷 감청, VPN 프로토콜 차단)을 무력화하기 위해 설계된 **C++20 기반 초경량 올인원 네트워크 프록시 & L3 터널 클라이언트**입니다.
+**Fissio**는 표현의 자유가 억압되고 **인터넷 검열 및 국가 단위 감청이 심한 국가의 시민, 언론인, 인권 활동가들을 위해 개발된 공익 목적의 C++20 기반 오픈소스 네트워크 도구**입니다.
 
-Electron이나 .NET 같은 무거운 프레임워크를 일체 배제하고 **순수 Win32 API 및 Windows DWM 하드웨어 렌더링**만으로 제작되어, 실행 파일 크기 1.5MB, 메모리 점유율 15MB 미만의 압도적인 성능을 자랑합니다.
+권위주의 정권의 극심한 SNI 차단, 국가 차원의 능동적 DPI 패킷 감시, 해외망 및 VPN 프로토콜 강제 차단 속에서도 보편적 정보 접근권과 안전한 통신권을 보장하기 위해 설계되었습니다.
+
+취약한 통신망이나 저사양 PC 환경에서도 원활히 동작하도록 Electron이나 .NET 같은 무거운 프레임워크를 일체 배제하고 **순수 Win32 API 및 Windows DWM 하드웨어 렌더링**만으로 제작되었습니다. 실행 파일 크기 약 1.5MB, 메모리 점유율 15MB 미만의 초경량 네이티브 구조로 위기 상황에서도 신속하고 안정적인 정보 접근을 지원합니다.
 
 ---
 
 ## 🌟 Key Features
 
-| 분류 | 기능 설명 | 세부 특징 |
+| 분류 | 기능 설명 | 공익 및 우회 기술 세부 특징 |
 |:---|:---|:---|
-| **🛡️ ECH SOCKS5 Proxy** | TLS 1.3 Encrypted Client Hello | Cloudflare DoH Type 65 HTTPS RR 실시간 추출, BoringSSL ECH 주입, 실제 SNI 암호화 |
-| **✂️ TCP Fragmentation** | DPI 우회 패킷 미세 조각화 | ClientHello 헤더를 2~5바이트 단위로 분할 전송하여 DPI 장비의 상태 추적 교란 |
-| **⚡ WG L3 VPN** | WireGuard® 프로토콜 호환 터널 | 커널 레벨 Wintun 드라이버 연동, 0.0.0.0/1 & 128.0.0.0/1 무단속 전체 가상 어댑터 라우팅 |
-| **🧬 Hybrid Mode** | ECH + WG 결합 우회 모드 | UDP 패킷이 차단되는 폐쇄망 환경에서 ECH 조각화와 터널을 복합 적용하여 방화벽 통과 |
-| **🎨 Modern Dark GUI** | 100% 네이티브 무결점 다크 테마 | DWMWA_CAPTION_COLOR(`#18181B`) 타이틀바 일체화, 둥근 모서리, 부드러운 애니메이션 버튼 |
-| **📂 Drag & Drop** | 설정 파일 드래그 앤 드롭 | 탐색기에서 `.conf` 파일을 창 안으로 끌어다 놓기만 해도 즉시 파싱 및 터널 모드 전환 |
-| **🌐 7개 언어 i18n** | 실시간 다국어 지원 | Windows OS 언어 자동 감지 + 한국어, 영어, 중국어, 일본어, 스페인어, 러시아어, 아랍어 실시간 전환 |
-| **🧹 Emergency Clean-up** | 원클릭 비상 라우트 복구 | 비정상 종료 시 남은 좀비 프로세스, 트레이 고스트 아이콘, 가상 라우트, 시스템 프록시 일괄 정상화 |
-| **🛡️ UAC Manifest** | 관리자 권한 자동 승격 | 가상 어댑터 및 라우팅 테이블 제어를 위해 별도의 '우클릭 관리자 실행' 없이 자동 UAC 요청 |
+| **🕊️ 공익적 자유 보장** | 디지털 기본권 보호 | 검열 국가 내 자유로운 정보 탐색 및 독립 언론·외부 소통 창구 확보 |
+| **🛡️ ECH SOCKS5 Proxy** | TLS 1.3 Encrypted Client Hello | Cloudflare DoH Type 65 HTTPS RR 실시간 추출, BoringSSL ECH 주입으로 국가 검열관의 접속지 식별 원천 차단 |
+| **✂️ TCP Fragmentation** | 국가 DPI 감시 패킷 무력화 | ClientHello 헤더를 2~5바이트 단위로 분할 전송하여 검열 장비의 상태 추적(Stateful Tracking) 교란 |
+| **⚡ WG L3 VPN** | WireGuard® 프로토콜 호환 터널 | 커널 레벨 Wintun 드라이버 연동, 0.0.0.0/1 & 128.0.0.0/1 전체 트래픽 암호화 터널링 |
+| **🧬 Hybrid Mode** | ECH + WG 복합 우회 | 국가 방화벽이 표준 UDP 포트를 전면 차단한 폐쇄망에서도 통신을 유지시키는 하이브리드 우회 모드 |
+| **🎨 Modern Dark GUI** | 100% 네이티브 무결점 다크 테마 | DWMWA_CAPTION_COLOR(`#18181B`) 타이틀바 일체화, 리소스 낭비 없는 저지연 렌더링 |
+| **📂 Drag & Drop** | 설정 파일 드래그 앤 드롭 | 탐색기에서 `.conf` 파일을 끌어다 놓기만 해도 즉시 검열 회피 터널 활성화 |
+| **🌐 7개 언어 i18n** | 검열 피해 지역 다국어 지원 | OS 언어 자동 감지 + 한국어, 영어, 중국어, 일본어, 스페인어, 러시아어, 아랍어(RTL) 실시간 전환 |
+| **🧹 Emergency Clean-up** | 원클릭 비상 라우트 복구 | 강제 네트워크 차단 또는 비정상 종료 시 남은 가상 어댑터와 시스템 프록시를 즉각 원래대로 정상화 |
+| **🛡️ UAC Manifest** | 관리자 권한 자동 승격 | 복잡한 설정 없이 원클릭으로 네트워크 가상 드라이버 활성화 및 보안 권한 획득 |
 
 ---
 
@@ -72,47 +76,51 @@ Electron이나 .NET 같은 무거운 프레임워크를 일체 배제하고 **�
 
 ```mermaid
 flowchart TD
-    subgraph Client ["🖥️ Local Machine (Windows 10/11)"]
-        Browser["App / Browser\n(Direct Traffic)"]
+    subgraph Client ["🖥️ Local Machine (User in Heavy Censorship Region)"]
+        Browser["App / Browser\n(Free Information Access)"]
         WinProxy["Windows System Proxy\n(127.0.0.1:10808)"]
-        FissioGui["fissio-gui.exe\n(Win32 Dark Desktop GUI)"]
+        FissioGui["fissio-gui.exe\n(Lightweight Win32 Client)"]
         
-        subgraph FissioCore ["⚙️ Fissio Engine"]
+        subgraph FissioCore ["⚙️ Fissio Engine (Public-Interest Evasion)"]
             Socks5["SOCKS5 Server\n(Port 10808)"]
-            DoH["DoH Engine\n(Cloudflare HTTPS RR)"]
-            Boring["BoringSSL ECH\n(Outer SNI Encapsulation)"]
-            Frag["TCP Fragmenter\n(2~5 Byte Split)"]
+            DoH["DoH Engine\n(Encrypted DNS Query)"]
+            Boring["BoringSSL ECH\n(Hide Destination SNI)"]
+            Frag["TCP Fragmenter\n(Defeat DPI State Machine)"]
             WGEngine["fissio-wg.exe\n(WireGuard Engine)"]
             Wintun["Wintun Adapter\n(Kernel L3 Driver)"]
         end
     end
 
-    subgraph Internet ["🌐 The Internet"]
-        DPI["DPI Censorship / Firewall\n(Failed to read SNI / Block UDP)"]
-        TargetWeb["Target Server / Cloudflare Edge"]
-        VpnServer["WG VPN Endpoint"]
+    subgraph SurveillanceZone ["🚫 Hostile State Network"]
+        DPI["State-Level DPI / Censorship Wall\n(Blocks SNI / Throttles UDP)"]
+    end
+
+    subgraph FreeInternet ["🌐 Open Internet"]
+        TargetWeb["Open Web / Independent Media / Edge"]
+        VpnServer["Secure L3 WG Endpoint"]
     end
 
     Browser --> WinProxy
     WinProxy --> Socks5
     Socks5 --> DoH
-    DoH -->|Fetch ECHConfigList| TargetWeb
+    DoH -->|Encrypted DNS Request| TargetWeb
     Socks5 --> Boring
     Boring --> Frag
-    Frag -->|Fragmented TLS ClientHello| DPI
-    DPI -->|Bypassed| TargetWeb
+    Frag -->|Fragmented Packet Stream| DPI
+    DPI -->|Inspection Failed / Bypassed| TargetWeb
 
-    Browser -.->|Full System L3 Mode| Wintun
+    Browser -.->|Encrypted Full System Tunnel| Wintun
     Wintun --> WGEngine
-    WGEngine -->|Encrypted UDP / Hybrid| DPI
-    DPI -->|Allowed| VpnServer
+    WGEngine -->|Encrypted Tunnel / Hybrid Stream| DPI
+    DPI -->|Passed| VpnServer
+    VpnServer --> TargetWeb
 ```
 
 ---
 
 ## 🌍 Supported Languages (i18n)
 
-Fissio checks the system's default UI language via `GetUserDefaultUILanguage()` upon launch and automatically applies the matching interface. If the system language is unsupported, it defaults seamlessly to **English**.
+정보 통제 및 인터넷 검열 비중이 높은 지역의 접근성을 고려하여, Fissio는 다국어 인터페이스를 기본 탑재하고 있습니다. `GetUserDefaultUILanguage()`를 통해 시스템 언어를 자동 감지하며, 지원되지 않는 언어 환경에서는 기본값인 **English**로 작동합니다.
 
 | Language | Code | Native Name | Status |
 |:---|:---:|:---|:---:|
@@ -142,7 +150,7 @@ Fissio checks the system's default UI language via `GetUserDefaultUILanguage()` 
   - Drag and drop your `.conf` file into the Fissio window, or click **`[ Import .conf ]`**.
   - Click **`[ START SERVICE ]`** for full-system L3 kernel VPN tunneling.
 - **Hybrid Mode**:
-  - Combines WireGuard encapsulation with TLS ECH fragmentation for restricted network environments.
+  - Combines WireGuard encapsulation with TLS ECH fragmentation for restricted network environments where UDP is filtered.
 
 ### 3. Tray & Auto-Start
 - Click the close button **`[X]`** to minimize to the Windows Taskbar Notification Area (System Tray).
