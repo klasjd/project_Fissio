@@ -2,6 +2,7 @@
 #include "proxy_controller.hpp"
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -24,11 +25,26 @@ bool WireGuardTunnel::start(const WireGuardConfig& config, const std::string& co
 
     active_endpoint_ = config.endpoint_host;
 
+    // Get executable directory to ensure reliable relative resolution
+    wchar_t modPath[MAX_PATH] = {0};
+    GetModuleFileNameW(NULL, modPath, MAX_PATH);
+    wchar_t* pSlash = wcsrchr(modPath, L'\\');
+    std::wstring appDir = pSlash ? std::wstring(modPath, pSlash + 1) : L"";
+
     std::string actual_conf = conf_path;
 
     // Create temporary .conf file if no explicit path was provided
     if (actual_conf.empty()) {
-        actual_conf = "active_wg.conf";
+        std::wstring tempConf = appDir + L"active_wg.conf";
+        int len = WideCharToMultiByte(CP_UTF8, 0, tempConf.c_str(), -1, NULL, 0, NULL, NULL);
+        if (len > 0) {
+            std::string tempStr(len - 1, '\0');
+            WideCharToMultiByte(CP_UTF8, 0, tempConf.c_str(), -1, &tempStr[0], len, NULL, NULL);
+            actual_conf = tempStr;
+        } else {
+            actual_conf = "active_wg.conf";
+        }
+
         std::ofstream ofs(actual_conf);
         if (!ofs.is_open()) {
             ProxyController::instance().log("[WireGuard] Failed to write temporary config file.");
@@ -47,16 +63,39 @@ bool WireGuardTunnel::start(const WireGuardConfig& config, const std::string& co
         ofs.close();
     }
 
-    // Verify fissio-wg.exe binary location
-    std::string exe_path = "fissio-wg.exe";
-    DWORD attr = GetFileAttributesA(exe_path.c_str());
-    if (attr == INVALID_FILE_ATTRIBUTES) {
-        exe_path = "build\\fissio-wg.exe";
-        attr = GetFileAttributesA(exe_path.c_str());
-        if (attr == INVALID_FILE_ATTRIBUTES) {
-            ProxyController::instance().log("[WireGuard] Error: fissio-wg.exe not found.");
-            return false;
+    // Candidate search paths for fissio-wg.exe
+    std::vector<std::wstring> candidates;
+    if (!appDir.empty()) {
+        candidates.push_back(appDir + L"fissio-wg.exe");
+        candidates.push_back(appDir + L"build\\fissio-wg.exe");
+        candidates.push_back(appDir + L"..\\build\\fissio-wg.exe");
+    }
+    candidates.push_back(L"fissio-wg.exe");
+    candidates.push_back(L"build\\fissio-wg.exe");
+
+    std::wstring found_wg_exe;
+    std::wstring found_working_dir;
+
+    for (const auto& path : candidates) {
+        DWORD attr = GetFileAttributesW(path.c_str());
+        if (attr != INVALID_FILE_ATTRIBUTES && !(attr & FILE_ATTRIBUTE_DIRECTORY)) {
+            wchar_t fullPath[MAX_PATH] = {0};
+            if (GetFullPathNameW(path.c_str(), MAX_PATH, fullPath, NULL) > 0) {
+                found_wg_exe = fullPath;
+                wchar_t* p = wcsrchr(fullPath, L'\\');
+                if (p) {
+                    found_working_dir = std::wstring(fullPath, p);
+                }
+            } else {
+                found_wg_exe = path;
+            }
+            break;
         }
+    }
+
+    if (found_wg_exe.empty()) {
+        ProxyController::instance().log("[WireGuard] Error: fissio-wg.exe not found in application path.");
+        return false;
     }
 
     // Create stdout/stderr pipe
@@ -72,7 +111,7 @@ bool WireGuardTunnel::start(const WireGuardConfig& config, const std::string& co
     }
     SetHandleInformation(hRead, HANDLE_FLAG_INHERIT, 0);
 
-    STARTUPINFOA si{};
+    STARTUPINFOW si{};
     si.cb = sizeof(si);
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.hStdOutput = hWrite;
@@ -80,10 +119,19 @@ bool WireGuardTunnel::start(const WireGuardConfig& config, const std::string& co
     si.wShowWindow = SW_HIDE;
 
     PROCESS_INFORMATION pi{};
-    std::string cmd = exe_path + " -config \"" + actual_conf + "\"";
 
-    BOOL ok = CreateProcessA(NULL, &cmd[0], NULL, NULL, TRUE,
-                             CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+    // Convert actual_conf to UTF-16
+    int confLen = MultiByteToWideChar(CP_UTF8, 0, actual_conf.c_str(), -1, NULL, 0);
+    std::wstring conf_w(confLen > 0 ? confLen - 1 : 0, L'\0');
+    if (confLen > 0) {
+        MultiByteToWideChar(CP_UTF8, 0, actual_conf.c_str(), -1, &conf_w[0], confLen);
+    }
+
+    std::wstring cmd = L"\"" + found_wg_exe + L"\" -config \"" + conf_w + L"\"";
+    const wchar_t* pWorkDir = found_working_dir.empty() ? NULL : found_working_dir.c_str();
+
+    BOOL ok = CreateProcessW(NULL, &cmd[0], NULL, NULL, TRUE,
+                             CREATE_NO_WINDOW, NULL, pWorkDir, &si, &pi);
 
     CloseHandle(hWrite); // Close parent write end of the pipe
 
@@ -99,7 +147,12 @@ bool WireGuardTunnel::start(const WireGuardConfig& config, const std::string& co
     pipe_read_ = hRead;
     is_running_ = true;
 
-    ProxyController::instance().log("[WireGuard] Launching official WireGuard engine: " + cmd);
+    int cmdLen = WideCharToMultiByte(CP_UTF8, 0, cmd.c_str(), -1, NULL, 0, NULL, NULL);
+    std::string cmdStr(cmdLen > 0 ? cmdLen - 1 : 0, '\0');
+    if (cmdLen > 0) {
+        WideCharToMultiByte(CP_UTF8, 0, cmd.c_str(), -1, &cmdStr[0], cmdLen, NULL, NULL);
+    }
+    ProxyController::instance().log("[WireGuard] Launching WireGuard engine: " + cmdStr);
 
     // Monitoring thread for child stdout/stderr pipe
     log_reader_thread_ = std::make_unique<std::thread>([this, hRead]() {

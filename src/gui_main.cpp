@@ -1535,6 +1535,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR lpCmdLine, int nCmdShow) {
+    // Ensure current working directory is always the application executable's directory
+    wchar_t appExePath[MAX_PATH] = {0};
+    GetModuleFileNameW(NULL, appExePath, MAX_PATH);
+    wchar_t* pAppSlash = wcsrchr(appExePath, L'\\');
+    if (pAppSlash) {
+        *pAppSlash = L'\0';
+        SetCurrentDirectoryW(appExePath);
+    }
+
     // Prevent duplicate instances: restore and focus existing window if already running
     HANDLE hMutex = CreateMutexW(NULL, FALSE, L"Global\\FissioGuiSingleInstanceMutex");
     if (GetLastError() == ERROR_ALREADY_EXISTS) {

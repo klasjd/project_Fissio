@@ -2,6 +2,7 @@
 build/
 bin/
 obj/
+dist/
 *.exe
 *.dll
 *.lib
